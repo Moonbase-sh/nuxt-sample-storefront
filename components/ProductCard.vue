@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { StorefrontProduct } from '@moonbase.sh/vue'
 import { useCart } from '@moonbase.sh/vue'
+import { formatCurrency } from '@/utils/formatCurrency'
 
 const props = defineProps<{
   product: StorefrontProduct

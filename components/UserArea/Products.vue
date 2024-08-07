@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useInventory } from '@moonbase.sh/vue'
-import ProductDownloads from '@/components/UserAreaModal/ProductDownloads.vue'
+import ProductDownloads from '@/components/UserArea/ProductDownloads.vue'
 
 const { getProducts } = useInventory()
 

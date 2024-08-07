@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import type { Activation } from '@moonbase.sh/vue'
 import { ActivationMethod, useInventory } from '@moonbase.sh/vue'
-import { computed, ref } from 'vue'
-import Spinner from '@/components/Spinner.vue'
 
 type RevokableActivation = Activation & { revoking: boolean }
 

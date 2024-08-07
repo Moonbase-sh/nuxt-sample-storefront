@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import type { Voucher } from '@moonbase.sh/vue'
 import { useVoucher } from '@moonbase.sh/vue'
-import Spinner from '@/components/Spinner.vue'
 
 const { redeem } = useVoucher()
 

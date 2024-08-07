@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { StorefrontBundle } from '@moonbase.sh/vue'
 import { useCart } from '@moonbase.sh/vue'
+import { formatCurrency } from '@/utils/formatCurrency'
 
 const props = defineProps<{
   bundle: StorefrontBundle

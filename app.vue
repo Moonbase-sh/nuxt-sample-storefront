@@ -1,19 +1,27 @@
 <script setup lang="ts">
 import { useAuth, useCart } from '@moonbase.sh/vue'
+import { useQueryParameter } from '~/utils/useQueryParameter'
 
 useHead({
   title: 'Moonbase Sample Store',
 })
 
+const route = useRoute()
 const { user, loaded: userHasBeenLoaded } = useAuth()
 const { items } = useCart()
 
 const cartOpen = ref(false)
 const loggingIn = ref(false)
+const confirmingAccount = ref(false)
+const resettingPassword = ref(false)
+const autoActivating = ref(false)
 const userAreaOpen = ref(false)
 
-watch(items, () => {
-  cartOpen.value = true
+watch(items, (newCart) => {
+  if (newCart.length > 0) {
+    // If there are any items in the cart when it changes, open it
+    cartOpen.value = true
+  }
 }, {
   deep: true,
 })
@@ -21,6 +29,28 @@ watch(items, () => {
 watch(user, (newUser) => {
   if (!newUser && userAreaOpen)
     userAreaOpen.value = false
+
+  if (newUser && loggingIn.value)
+    loggingIn.value = false
+})
+
+onMounted(() => {
+  // This simple storefront example also handles some
+  // critical user flows like account confirmation, etc.
+  // Normally, you will probably have separate routes
+  // for the different views, but here we simplify.
+  if (route.fullPath.startsWith('/sign-in') && !user.value) {
+    loggingIn.value = true
+  }
+  else if (route.fullPath.startsWith('/confirm-account')) {
+    confirmingAccount.value = true
+  }
+  else if (route.fullPath.startsWith('/reset-password')) {
+    resettingPassword.value = true
+  }
+  else if (route.fullPath.startsWith('/auto-activate')) {
+    autoActivating.value = true
+  }
 })
 </script>
 
@@ -99,6 +129,35 @@ watch(user, (newUser) => {
       <ProductList />
     </Suspense>
   </main>
-  <SignInModal v-if="loggingIn" @close="loggingIn = false" />
-  <UserAreaModal v-if="userAreaOpen" @close="userAreaOpen = false" />
+
+  <!-- This app has a number of modals that are conditionally visible. -->
+  <!-- To keep this implementation simple, we just control them all here. -->
+
+  <SimpleModal v-if="loggingIn" @close="loggingIn = false">
+    <SignIn />
+  </SimpleModal>
+
+  <SimpleModal v-if="userAreaOpen" @close="userAreaOpen = false">
+    <UserArea />
+  </SimpleModal>
+
+  <SimpleModal v-if="confirmingAccount" @close="confirmingAccount = false">
+    <ConfirmAccount
+      :email="useQueryParameter('email')"
+      :code="useQueryParameter('code')"
+    />
+  </SimpleModal>
+
+  <SimpleModal v-if="resettingPassword" @close="resettingPassword = false">
+    <ResetPassword
+      :email="useQueryParameter('email')"
+      :code="useQueryParameter('code')"
+    />
+  </SimpleModal>
+
+  <SimpleModal v-if="autoActivating" @close="autoActivating = false">
+    <AutoActivate
+      :token="useQueryParameter('token')"
+    />
+  </SimpleModal>
 </template>

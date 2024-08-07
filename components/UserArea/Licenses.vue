@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { useInventory } from '@moonbase.sh/vue'
-import { ref } from 'vue'
-import Spinner from '@/components/Spinner.vue'
-import LicenseActivations from '@/components/UserAreaModal/LicenseActivations.vue'
+import LicenseActivations from '@/components/UserArea/LicenseActivations.vue'
 
 const { getLicenses } = useInventory()
 

@@ -19,6 +19,7 @@ function removeFromCart() {
 
 <template>
   <div class="flex items-center">
+    <!-- <img class="w-12 h-12 rounded shadow overflow-hidden" :src="product.image" alt=""> -->
     <h3 class="flex-grow mx-2">
       {{ itemName }}
       <span v-if="cartItem.quantity > 1" class="text-gray-500">

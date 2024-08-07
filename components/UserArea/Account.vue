@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { useAuth } from '@moonbase.sh/vue'
-import { ref } from 'vue'
-import Spinner from '@/components/Spinner.vue'
 
 const { user, update, setPassword, signOut } = useAuth()
 
